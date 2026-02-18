@@ -1,4 +1,4 @@
-Este proyecto consiste en una aplicación móvil desarrollada con Kotlin Multiplatform que aborda la importancia de la salud mental y ofrece información detallada sobre diversos trastornos.
+Este proyecto consiste en una aplicación móvil desarrollada con Kotlin que aborda la importancia de la salud mental y ofrece información detallada sobre diversos trastornos.
 
 Contenido sobre Enfermedades Mentales
 Trastornos de Ansiedad
