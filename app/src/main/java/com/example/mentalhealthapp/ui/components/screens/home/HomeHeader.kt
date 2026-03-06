@@ -1,4 +1,4 @@
-package com.example.mentalhealthapp.ui.home
+package com.example.mentalhealthapp.ui.components.screens.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

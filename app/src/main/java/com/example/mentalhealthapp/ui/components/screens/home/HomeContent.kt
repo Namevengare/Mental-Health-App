@@ -1,4 +1,4 @@
-package com.example.mentalhealthapp.ui.home
+package com.example.mentalhealthapp.ui.components.screens.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -30,7 +30,7 @@ fun HomeContent(modifier: Modifier = Modifier){
     val randomFact = remember { randomDataHeatlh.random() }
 
     val icon = painterResource(com.example.mentalhealthapp.R.drawable.fruit_15467270)
-    Card(modifier.height(120.dp)) {
+    Card(modifier.height(140.dp)) {
         Row() {
             Box(
                 modifier = Modifier.fillMaxHeight(),
