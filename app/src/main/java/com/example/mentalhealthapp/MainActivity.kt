@@ -4,30 +4,35 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.example.mentalhealthapp.ui.components.screens.home.HomeScreen
+import com.example.mentalhealthapp.ui.components.screens.disorders.DisorderScreen
+import com.example.mentalhealthapp.ui.components.screens.disorders.TocContent
 import com.example.mentalhealthapp.ui.theme.MentalHealthAppTheme
 import com.example.mentalhealthapp.ui.utils.Constants
 
-// Pantallas temporales para que compile
-@Composable fun SearchScreen() { Text("Search Screen") }
-@Composable fun ProfileScreen() { Text("Profile Screen") }
+// Pantallas temporales para las rutas que faltan
+@Composable fun CitasScreen() { Text("Pantalla de Citas") }
+@Composable fun NoticiasScreen() { Text("Pantalla de Noticias") }
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MentalHealthAppTheme(dynamicColor = false, darkTheme = false) {
+            MentalHealthAppTheme {
                 val navController = rememberNavController()
-                Surface(color = Color.White) {
+                Surface(color = MaterialTheme.colorScheme.background) {
                     Scaffold(
                         bottomBar = {
                             BottomNavigationBar(navController = navController)
@@ -52,38 +57,63 @@ fun NavHostContainer(
         modifier = Modifier.padding(padding)
     ) {
         composable("home") { HomeScreen() }
-        composable("search") { SearchScreen() }
-        composable("profile") { ProfileScreen() }
+        composable("trastornos") { 
+            DisorderScreen(onItemClick = { route -> 
+                navController.navigate(route)
+            }) 
+        }
+        composable("toc") { TocContent() }
+        composable("citas") { CitasScreen() }
+        composable("noticias") { NoticiasScreen() }
     }
 }
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
-    NavigationBar(containerColor = Color(0xFF0F9D58)) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
+    Column {
+        HorizontalDivider(
+            thickness = 0.5.dp,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
+        )
+        NavigationBar(
+            modifier = Modifier.height(64.dp),
+            containerColor = MaterialTheme.colorScheme.background,
+            tonalElevation = 0.dp
+        ) {
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentRoute = navBackStackEntry?.destination?.route
 
-        Constants.BottomNavItems.forEach { navItem ->
-            NavigationBarItem(
-                selected = currentRoute == navItem.route,
-                onClick = {
-                    navController.navigate(navItem.route) {
-                        popUpTo(navController.graph.startDestinationId)
-                        launchSingleTop = true
-                    }
-                },
-                icon = {
-                    Icon(imageVector = navItem.Icon, contentDescription = navItem.label)
-                },
-                label = { Text(text = navItem.label) },
-                alwaysShowLabel = false,
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.White,
-                    unselectedIconColor = Color.LightGray,
-                    selectedTextColor = Color.White,
-                    indicatorColor = Color(0xFF195334)
+            Constants.BottomNavItems.forEach { navItem ->
+                NavigationBarItem(
+                    selected = currentRoute == navItem.route,
+                    onClick = {
+                        if (currentRoute != navItem.route) {
+                            navController.navigate(navItem.route) {
+                                // Corregido: popUpTo con la función findStartDestination()
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = navItem.Icon, 
+                            contentDescription = navItem.label,
+                            modifier = Modifier.padding(top = 4.dp)
+                        )
+                    },
+                    label = null,
+                    alwaysShowLabel = false,
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = MaterialTheme.colorScheme.primary,
+                        unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        indicatorColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+                    )
                 )
-            )
+            }
         }
     }
 }
