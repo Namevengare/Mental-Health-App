@@ -17,9 +17,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.mentalhealthapp.ui.models.Disorder
 
 @Composable
-fun TocContent() {
+fun DisorderDetailScreen(disorder: Disorder, onBackToCitas: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -27,6 +28,14 @@ fun TocContent() {
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        // Título de la sección
+        Text(
+            text = disorder.title,
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary
+        )
+
         // Descripción
         Card(
             modifier = Modifier.fillMaxWidth(),
@@ -42,7 +51,7 @@ fun TocContent() {
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "El Trastorno Obsesivo-Compulsivo (TOC) se caracteriza por pensamientos incontrolables y recurrentes (obsesiones) que pueden llevar a las personas a tener comportamientos repetitivos (compulsiones) para aliviar la ansiedad.",
+                    text = disorder.fullDescription,
                     style = MaterialTheme.typography.bodyMedium,
                     lineHeight = 22.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -77,7 +86,7 @@ fun TocContent() {
                         color = MaterialTheme.colorScheme.primary
                     )
                     Text(
-                        text = "Afecta aproximadamente al 1-2% de la población mundial.",
+                        text = disorder.prevalence,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
                     )
@@ -100,14 +109,7 @@ fun TocContent() {
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 
-                val sintomas = listOf(
-                    "Pensamientos obsesivos recurrentes",
-                    "Miedo a la contaminación o gérmenes",
-                    "Necesidad de orden y simetría",
-                    "Compulsiones de limpieza o verificación constante"
-                )
-
-                sintomas.forEach { sintoma ->
+                disorder.symptoms.forEach { sintoma ->
                     Row(
                         modifier = Modifier.padding(vertical = 6.dp),
                         verticalAlignment = Alignment.Top
@@ -129,7 +131,7 @@ fun TocContent() {
             }
         }
 
-        // Tarjeta de Ayuda Profesional (Movida aquí)
+        // Tarjeta de Ayuda Profesional
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(24.dp),
@@ -161,7 +163,7 @@ fun TocContent() {
                 )
                 Spacer(Modifier.height(16.dp))
                 TextButton(
-                    onClick = { /* Navegar a citas */ },
+                    onClick = onBackToCitas,
                     contentPadding = PaddingValues(0.dp)
                 ) {
                     Text(

@@ -14,15 +14,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.*
+import androidx.navigation.navArgument
 import com.example.mentalhealthapp.ui.components.screens.home.HomeScreen
 import com.example.mentalhealthapp.ui.components.screens.disorders.DisorderScreen
-import com.example.mentalhealthapp.ui.components.screens.disorders.TocContent
+import com.example.mentalhealthapp.ui.components.screens.disorders.DisorderDetailScreen
+import com.example.mentalhealthapp.ui.components.screens.appointments.AppointmentsScreen
+import com.example.mentalhealthapp.ui.models.disordersList
 import com.example.mentalhealthapp.ui.theme.MentalHealthAppTheme
 import com.example.mentalhealthapp.ui.utils.Constants
 
-// Pantallas temporales para las rutas que faltan
-@Composable fun CitasScreen() { Text("Pantalla de Citas") }
 @Composable fun NoticiasScreen() { Text("Pantalla de Noticias") }
 
 class MainActivity : ComponentActivity() {
@@ -57,13 +59,29 @@ fun NavHostContainer(
         modifier = Modifier.padding(padding)
     ) {
         composable("home") { HomeScreen() }
+        
         composable("trastornos") { 
-            DisorderScreen(onItemClick = { route -> 
-                navController.navigate(route)
+            DisorderScreen(onItemClick = { disorderId -> 
+                navController.navigate("disorder_detail/$disorderId")
             }) 
         }
-        composable("toc") { TocContent() }
-        composable("citas") { CitasScreen() }
+        
+        // Pantalla dinámica que recibe el ID del trastorno
+        composable(
+            route = "disorder_detail/{disorderId}",
+            arguments = listOf(navArgument("disorderId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val disorderId = backStackEntry.arguments?.getString("disorderId")
+            val disorder = disordersList.find { it.id == disorderId }
+            if (disorder != null) {
+                DisorderDetailScreen(
+                    disorder = disorder,
+                    onBackToCitas = { navController.navigate("citas") }
+                )
+            }
+        }
+
+        composable("citas") { AppointmentsScreen() }
         composable("noticias") { NoticiasScreen() }
     }
 }
@@ -89,7 +107,6 @@ fun BottomNavigationBar(navController: NavHostController) {
                     onClick = {
                         if (currentRoute != navItem.route) {
                             navController.navigate(navItem.route) {
-                                // Corregido: popUpTo con la función findStartDestination()
                                 popUpTo(navController.graph.findStartDestination().id) {
                                     saveState = true
                                 }

@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mentalhealthapp.ui.components.screens.home.MentalHealthBanner
+import com.example.mentalhealthapp.ui.models.disordersList
 
 @Composable
 fun DisorderScreen(onItemClick: (String) -> Unit) {
@@ -39,31 +40,19 @@ fun DisorderScreen(onItemClick: (String) -> Unit) {
                 modifier = Modifier.padding(bottom = 24.dp)
             )
 
-            val disorders = listOf(
-                "Trastornos de Ansiedad" to "El grupo de trastornos mentales más común en todo el mundo",
-                "Depresión (Trastorno Depresivo Mayor)" to "Va más allá de la tristeza temporal",
-                "Trastorno Bipolar" to "Cambios extremos en el estado de ánimo",
-                "Trastorno por Déficit de Atención e Hiperactividad (TDAH)" to "Trastorno por déficit de atención e hiperactividad",
-                "TEPT" to "Trastorno de Estrés Postraumático (TEPT)",
-                "Esquizofrenia" to "Afecta la percepción y el pensamiento",
-                "Trastornos de la Conducta Alimentaria" to "Trastornos de la conducta alimentaria",
-                "Trastorno Obsesivo-Compulsivo (TOC)" to "Pensamientos obsesivos y comportamientos compulsivos",
-                "Trastorno por Uso de Sustancias" to "Patrón problemático de consumo de sustancias",
-                "Trastornos del Espectro Autista (TEA)" to "Trastorno del espectro autista"
-            )
-
-            disorders.forEach { (title, desc) ->
+            // Lista dinámica basada en el modelo DisordersList
+            disordersList.forEach { disorder ->
                 DisorderItem(
-                    title = title,
-                    description = desc,
-                    onClick = { if (title.contains("TOC")) onItemClick("toc") }
+                    title = disorder.title,
+                    description = disorder.shortDescription,
+                    onClick = { onItemClick(disorder.id) }
                 )
                 Spacer(Modifier.height(12.dp))
             }
 
             Spacer(Modifier.height(16.dp))
 
-            // Nota informativa (se queda aquí como aviso general)
+            // Nota informativa
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
