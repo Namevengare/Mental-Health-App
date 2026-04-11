@@ -1,9 +1,14 @@
 package com.example.mentalhealthapp
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
@@ -11,12 +16,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
+import com.example.mentalhealthapp.notifications.NotificationHelper
+import com.example.mentalhealthapp.notifications.WebSocketManager
 import com.example.mentalhealthapp.ui.components.screens.home.HomeScreen
 import com.example.mentalhealthapp.ui.components.screens.disorders.DisorderScreen
 import com.example.mentalhealthapp.ui.components.screens.disorders.DisorderDetailScreen
@@ -28,11 +37,53 @@ import com.example.mentalhealthapp.ui.utils.Constants
 @Composable fun NoticiasScreen() { Text("Pantalla de Noticias") }
 
 class MainActivity : ComponentActivity() {
+    private lateinit var webSocketManager: WebSocketManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        val notificationHelper = NotificationHelper(this)
+        webSocketManager = WebSocketManager(notificationHelper)
+
+        val socketUrl = "wss://sharpie-wind-lily.ngrok-free.dev/ws-notifications"
+        webSocketManager.connect(socketUrl)
+
         enableEdgeToEdge()
         setContent {
             MentalHealthAppTheme {
+                val context = LocalContext.current
+                var hasNotificationPermission by remember {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        mutableStateOf(
+                            ContextCompat.checkSelfPermission(
+                                context,
+                                Manifest.permission.POST_NOTIFICATIONS
+                            ) == PackageManager.PERMISSION_GRANTED
+                        )
+                    } else {
+                        mutableStateOf(true)
+                    }
+                }
+
+                val permissionLauncher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.RequestPermission(),
+                    onResult = { isGranted ->
+                        hasNotificationPermission = isGranted
+                    }
+                )
+
+                LaunchedEffect(Unit) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        if (ContextCompat.checkSelfPermission(
+                                context,
+                                Manifest.permission.POST_NOTIFICATIONS
+                            ) != PackageManager.PERMISSION_GRANTED
+                        ) {
+                            permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                        }
+                    }
+                }
+
                 val navController = rememberNavController()
                 Surface(color = MaterialTheme.colorScheme.background) {
                     Scaffold(
@@ -44,6 +95,13 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (::webSocketManager.isInitialized) {
+            webSocketManager.disconnect()
         }
     }
 }
@@ -66,7 +124,6 @@ fun NavHostContainer(
             }) 
         }
         
-        // Pantalla dinámica que recibe el ID del trastorno
         composable(
             route = "disorder_detail/{disorderId}",
             arguments = listOf(navArgument("disorderId") { type = NavType.StringType })
