@@ -12,6 +12,11 @@ navigationCompose = "2.9.7"
 navigationComposeVersion = "2.8.8"
 material3 = "1.4.0"
 okhttp = "4.12.0"
+gson = "2.10.1"
+mockk = "1.13.12"
+kotlinxCoroutinesTest = "1.10.1"
+androidxCoreTesting = "2.2.0"
+turbines = "1.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,6 +37,11 @@ androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-te
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+androidx-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "androidxCoreTesting" }
+turbines = { group = "app.cash.turbine", name = "turbine", version.ref = "turbines" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

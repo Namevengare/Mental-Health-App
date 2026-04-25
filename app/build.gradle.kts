@@ -60,5 +60,11 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:${nav_version}")
     implementation("androidx.compose.material:material-icons-extended")
     implementation(libs.okhttp)
+    implementation(libs.gson)
 
+    // Test dependencies
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.turbines)
 }

@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import kotlinx.coroutines.delay
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -26,6 +27,7 @@ import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import com.example.mentalhealthapp.notifications.NotificationHelper
 import com.example.mentalhealthapp.notifications.WebSocketManager
+import com.example.mentalhealthapp.ui.components.screens.news.NewsScreen
 import com.example.mentalhealthapp.ui.components.screens.home.HomeScreen
 import com.example.mentalhealthapp.ui.components.screens.disorders.DisorderScreen
 import com.example.mentalhealthapp.ui.components.screens.disorders.DisorderDetailScreen
@@ -81,6 +83,15 @@ class MainActivity : ComponentActivity() {
                         ) {
                             permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                         }
+                    }
+
+                    // Enviar notificación cada 5 segundos
+                    while (true) {
+                        delay(50000)
+                        notificationHelper.showNotification(
+                            "Recordatorio de Salud Mental",
+                            "Tu salud mental es importante"
+                        )
                     }
                 }
 
@@ -139,7 +150,7 @@ fun NavHostContainer(
         }
 
         composable("citas") { AppointmentsScreen() }
-        composable("noticias") { NoticiasScreen() }
+        composable("noticias") { NewsScreen() }
     }
 }
 

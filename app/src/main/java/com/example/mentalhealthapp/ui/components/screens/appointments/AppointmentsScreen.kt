@@ -41,7 +41,6 @@ fun AppointmentsScreen() {
             
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Barra de Búsqueda
             OutlinedTextField(
                 value = searchQuery,
                 onValueChange = { searchQuery = it },
@@ -57,7 +56,6 @@ fun AppointmentsScreen() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Filtros de Ciudad
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     imageVector = Icons.Default.FilterList,
@@ -91,7 +89,6 @@ fun AppointmentsScreen() {
             )
         }
 
-        // Lista de Centros
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(16.dp),
@@ -135,7 +132,6 @@ fun CenterCard(center: MentalHealthCenter) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Información de contacto
             InfoRow(Icons.Default.LocationOn, "${center.address}\n${center.city}")
             Spacer(modifier = Modifier.height(8.dp))
             InfoRow(Icons.Default.Phone, center.phone, color = MaterialTheme.colorScheme.primary)

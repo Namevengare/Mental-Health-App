@@ -18,7 +18,6 @@ fun HomeScreen(){
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        // En el Home pasamos true para mostrar el subtítulo completo
         MentalHealthBanner(showSubtitle = true)
         
         Column(modifier = Modifier.padding(horizontal = 16.dp)) {

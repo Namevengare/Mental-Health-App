@@ -28,7 +28,6 @@ fun DisorderDetailScreen(disorder: Disorder, onBackToCitas: () -> Unit) {
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // Título de la sección
         Text(
             text = disorder.title,
             style = MaterialTheme.typography.headlineMedium,
@@ -36,7 +35,6 @@ fun DisorderDetailScreen(disorder: Disorder, onBackToCitas: () -> Unit) {
             color = MaterialTheme.colorScheme.primary
         )
 
-        // Descripción
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
@@ -59,7 +57,6 @@ fun DisorderDetailScreen(disorder: Disorder, onBackToCitas: () -> Unit) {
             }
         }
 
-        // Prevalencia
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
@@ -94,7 +91,6 @@ fun DisorderDetailScreen(disorder: Disorder, onBackToCitas: () -> Unit) {
             }
         }
 
-        // Síntomas Comunes
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
@@ -131,7 +127,6 @@ fun DisorderDetailScreen(disorder: Disorder, onBackToCitas: () -> Unit) {
             }
         }
 
-        // Tarjeta de Ayuda Profesional
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(24.dp),

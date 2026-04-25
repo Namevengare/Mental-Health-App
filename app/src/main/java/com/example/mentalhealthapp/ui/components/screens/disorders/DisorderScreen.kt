@@ -40,7 +40,6 @@ fun DisorderScreen(onItemClick: (String) -> Unit) {
                 modifier = Modifier.padding(bottom = 24.dp)
             )
 
-            // Lista dinámica basada en el modelo DisordersList
             disordersList.forEach { disorder ->
                 DisorderItem(
                     title = disorder.title,
@@ -52,7 +51,6 @@ fun DisorderScreen(onItemClick: (String) -> Unit) {
 
             Spacer(Modifier.height(16.dp))
 
-            // Nota informativa
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
