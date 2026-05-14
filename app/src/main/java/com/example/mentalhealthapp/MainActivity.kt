@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
         val notificationHelper = NotificationHelper(this)
         webSocketManager = WebSocketManager(notificationHelper)
 
-        val socketUrl = "wss://sharpie-wind-lily.ngrok-free.dev/ws-notifications"
+        val socketUrl = "wss://mental-health-app-springboot-production.up.railway.app/ws-notifications"
         webSocketManager.connect(socketUrl)
 
         enableEdgeToEdge()
@@ -85,9 +85,9 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
-                    // Enviar notificación cada 5 segundos
+                    // Enviar notificación cada 5 minutos
                     while (true) {
-                        delay(50000)
+                        delay(300000)
                         notificationHelper.showNotification(
                             "Recordatorio de Salud Mental",
                             "Tu salud mental es importante"
@@ -144,6 +144,7 @@ fun NavHostContainer(
             if (disorder != null) {
                 DisorderDetailScreen(
                     disorder = disorder,
+                    onBackToDisorders = { navController.popBackStack() },
                     onBackToCitas = { navController.navigate("citas") }
                 )
             }

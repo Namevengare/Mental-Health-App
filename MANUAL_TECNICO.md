@@ -48,7 +48,7 @@ Configuracion de `application`:
 ### 5.1 Entrada principal
 `MainActivity`:
 - Inicializa `NotificationHelper`.
-- Crea y conecta `WebSocketManager` contra `wss://sharpie-wind-lily.ngrok-free.dev/ws-notifications`.
+- Crea y conecta `WebSocketManager` contra `wss://mental-health-app-springboot-production.up.railway.app/ws-notifications`.
 - Solicita permiso `POST_NOTIFICATIONS` en Android 13+.
 - Lanza notificacion local periodica dentro de un `LaunchedEffect` con espera de `50000 ms`.
 - Monta `Scaffold` con barra inferior y `NavHost`.
@@ -116,7 +116,7 @@ Datos embebidos actuales:
 
 ### 8.1 API REST de noticias
 `NewsViewModel` consume por GET:
-- `http://192.168.1.11:8081/api/news/mental-health`
+- `https://mental-health-app-springboot-production.up.railway.app/api/news/mental-health`
 
 Comportamiento:
 - `isLoading = true` al iniciar.

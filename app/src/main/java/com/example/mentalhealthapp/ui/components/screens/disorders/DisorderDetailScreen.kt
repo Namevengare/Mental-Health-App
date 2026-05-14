@@ -5,6 +5,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.MedicalServices
@@ -20,7 +21,11 @@ import androidx.compose.ui.unit.sp
 import com.example.mentalhealthapp.ui.models.Disorder
 
 @Composable
-fun DisorderDetailScreen(disorder: Disorder, onBackToCitas: () -> Unit) {
+fun DisorderDetailScreen(
+    disorder: Disorder,
+    onBackToDisorders: () -> Unit,
+    onBackToCitas: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -28,6 +33,17 @@ fun DisorderDetailScreen(disorder: Disorder, onBackToCitas: () -> Unit) {
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        IconButton(
+            onClick = onBackToDisorders,
+            modifier = Modifier.size(48.dp)
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Volver a trastornos",
+                tint = MaterialTheme.colorScheme.primary
+            )
+        }
+
         Text(
             text = disorder.title,
             style = MaterialTheme.typography.headlineMedium,

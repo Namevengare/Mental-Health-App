@@ -53,7 +53,7 @@ class NewsViewModelTest {
             """.trimIndent()
 
             val mockResponse = Response.Builder()
-                .request(Request.Builder().url("http://192.168.1.11:8081/api/news/mental-health").build())
+                .request(Request.Builder().url("https://mental-health-app-springboot-production.up.railway.app/api/news/mental-health").build())
                 .protocol(Protocol.HTTP_1_1)
                 .code(200)
                 .message("OK")
@@ -80,7 +80,7 @@ class NewsViewModelTest {
         runTest {
             // Given
             val mockResponse = Response.Builder()
-                .request(Request.Builder().url("http://192.168.1.11:8081/api/news/mental-health").build())
+                .request(Request.Builder().url("https://mental-health-app-springboot-production.up.railway.app/api/news/mental-health").build())
                 .protocol(Protocol.HTTP_1_1)
                 .code(500)
                 .message("Server Error")

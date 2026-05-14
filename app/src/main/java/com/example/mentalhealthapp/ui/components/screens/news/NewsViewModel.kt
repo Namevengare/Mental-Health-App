@@ -28,7 +28,7 @@ class NewsViewModel(
     fun fetchNews() {
         isLoading = true
         viewModelScope.launch(Dispatchers.IO) {
-            val url = "http://192.168.1.11:8081/api/news/mental-health"
+            val url = "https://mental-health-app-springboot-production.up.railway.app/api/news/mental-health"
             Log.d("NewsViewModel", "Iniciando petición a: $url")
 
             val request = Request.Builder()
