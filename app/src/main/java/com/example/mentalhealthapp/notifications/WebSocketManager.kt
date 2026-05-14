@@ -15,8 +15,7 @@ class WebSocketManager(private val notificationHelper: NotificationHelper) {
             }
 
             override fun onMessage(webSocket: WebSocket, text: String) {
-
-                notificationHelper.showNotification("Nueva Notificación", text)
+                println("WebSocket Message: $text")
             }
 
             override fun onMessage(webSocket: WebSocket, bytes: ByteString) {

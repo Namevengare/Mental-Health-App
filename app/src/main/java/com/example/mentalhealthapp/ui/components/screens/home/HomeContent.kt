@@ -8,8 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Lightbulb
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,7 +24,12 @@ import androidx.compose.ui.unit.sp
 @Preview(showBackground = true)
 @Composable
 fun HomeContent(modifier: Modifier = Modifier) {
-    val randomFact = remember { randomDataHeatlh.random() }
+    var randomFact by remember { mutableStateOf(randomDataHeatlh.random()) }
+
+    LaunchedEffect(Unit) {
+        randomFact = randomDataHeatlh.random()
+    }
+
     val icon = painterResource(com.example.mentalhealthapp.R.drawable.fruit_15467270)
 
     Column(modifier = modifier.fillMaxWidth()) {
@@ -80,7 +84,6 @@ fun HomeContent(modifier: Modifier = Modifier) {
 
         Spacer(Modifier.height(24.dp))
 
-        // Tarjeta de Dato Curioso
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(24.dp),
